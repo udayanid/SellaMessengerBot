@@ -1,0 +1,219 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>it.sella.externals.sellamessengerbot</groupId>
+    <artifactId>sellamessengerbot</artifactId>
+    <version>${projectVersion}</version>
+  </parent>
+  <artifactId>sellamessengerbot-common</artifactId>
+  <name>sellamessengerbot-common</name>
+  
+  <properties>
+		<spring.version.bg>5.0.8.RELEASE</spring.version.bg>
+		<jackson.version.bg>2.9.0.pr4</jackson.version.bg>
+	</properties>
+  
+  <dependencies>
+		<!-- SYS DEPENDENCIES -->
+		<dependency>
+			<groupId>weblogic.modules</groupId>
+			<artifactId>javax.servlet</artifactId>
+			<version>1.0.0.0_2-5</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>weblogic.modules</groupId>
+			<artifactId>javax.jsp</artifactId>
+			<version>1.1.0.0_2-1</version>
+			<scope>provided</scope>
+		</dependency>				
+  		<dependency>
+			<groupId>oracle.jdbc.driver</groupId>
+			<artifactId>ojdbc14</artifactId>
+			<version>10.2.0.1.0</version>
+			<scope>provided</scope>
+		</dependency>
+		
+		<!-- JAX-WS Dependencies -->
+		<dependency>
+			<groupId>com.sun.xml.ws</groupId>
+			<artifactId>jaxws-rt</artifactId>
+			<version>2.2.7</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.sun.xml.messaging.saaj</groupId>
+					<artifactId>saaj-impl</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.xml.ws</groupId>
+					<artifactId>jaxws-api</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>	
+		<dependency>
+			<groupId>activesoap</groupId>
+			<artifactId>jaxp-api</artifactId>
+			<version>1.3</version>
+		</dependency>
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-web-api</artifactId>
+			<version>6.0</version>
+			<scope>provided</scope>
+		</dependency>
+		
+		<!-- Sella Util -->
+		<!-- <dependency>
+		  <groupId>it.sella.util</groupId>
+		  <artifactId>util-lib-core</artifactId>
+		  <version>5.9.0</version>
+		</dependency>
+		<dependency>
+		  <groupId>it.sella.utilcore</groupId>
+		  <artifactId>utilcore-lib</artifactId>
+		  <version>1.8.0</version>
+		</dependency>
+		<dependency>
+			<groupId>it.sella.crossauthentication</groupId>
+			<artifactId>crossauthentication-lib-core</artifactId>
+			<version>4.1.2</version>
+		</dependency>
+		
+			<dependency>
+			<groupId>it.sella.securitycore</groupId>
+			<artifactId>securitycore-wls</artifactId>
+			<version>2.6.0</version>
+		</dependency> -->
+		
+		<!-- Apache -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>1.3.2</version>
+		</dependency>
+		
+		<dependency>
+	      <groupId>org.apache.commons</groupId>
+	      <artifactId>commons-lang3</artifactId>
+	      <version>3.2.1</version>
+    	</dependency>
+    	
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>${log4j.version}</version>
+		</dependency>
+		
+		<!-- EH Cache -->
+		<dependency>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache-core</artifactId>
+			<version>2.6.0</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.springframework</groupId>
+    		<artifactId>spring-aop</artifactId>
+    		<version>${spring.version.bg}</version>
+		</dependency>
+		<dependency>
+    		<groupId>org.aspectj</groupId>
+    		<artifactId>aspectjrt</artifactId>
+    		<version>1.6.11</version>
+		</dependency>
+		<dependency>
+    		<groupId>org.aspectj</groupId>
+    		<artifactId>aspectjweaver</artifactId>
+    		<version>1.8.4</version>
+		</dependency>		
+         
+		<dependency>
+         	<groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.4</version>
+        </dependency>	
+        
+		<dependency>
+		  <groupId>com.google.code.gson</groupId>
+		  <artifactId>gson</artifactId>
+		  <version>2.8.1</version>
+		</dependency>
+		
+  <!-- Jackson -->
+		<dependency>
+	        <groupId>com.fasterxml.jackson.core</groupId>
+	        <artifactId>jackson-databind</artifactId>
+	        <version>${jackson.version.bg}</version>
+		</dependency>
+		
+		<dependency>
+	        <groupId>com.fasterxml.jackson.core</groupId>
+	        <artifactId>jackson-core</artifactId>
+	        <version>${jackson.version.bg}</version>
+		</dependency>
+		
+		<!-- Spring -->	
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<version>${spring.version.bg}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>${spring.version.bg}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${spring.version.bg}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version>${spring.version.bg}</version>
+		</dependency>
+		
+		<dependency>
+	        <groupId>org.springframework</groupId>
+	        <artifactId>spring-context</artifactId>
+	        <version>${spring.version.bg}</version>
+	    </dependency>
+	    
+	    <dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>${spring.version.bg}</version>
+		</dependency>	
+	    
+	    <dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>${spring.version.bg}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-oxm</artifactId>
+			<version>${spring.version.bg}</version>
+		</dependency>
+		
+		<!-- EH Cache -->
+		<dependency>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache-core</artifactId>
+			<version>2.6.0</version>
+		</dependency>
+		
+		<dependency>
+		  <groupId>com.google.code.gson</groupId>
+		  <artifactId>gson</artifactId>
+		  <version>2.8.5</version>
+		</dependency>
+		
+	</dependencies>
+  
+</project>

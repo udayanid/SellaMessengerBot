@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns="http://java.sun.com/xml/ns/javaee"
+xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" 
+id="BG" version="3.0">
+  <display-name>SellaMessengerBot</display-name>
+  <welcome-file-list><welcome-file>index.html</welcome-file></welcome-file-list>
+	<!-- <listener>
+		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+	</listener> -->
+	
+	<!-- <filter>
+	    <filter-name>UTF8Filter</filter-name>
+	    <filter-class>it.sella.sb.filter.UTF8Filter</filter-class>
+	</filter>
+    <filter-mapping>
+	      <filter-name>UTF8Filter</filter-name>
+	      <url-pattern>/*</url-pattern>
+	</filter-mapping> -->
+	
+	<!--<filter>
+		<filter-name>IdentityAssertionFilter</filter-name>
+		<filter-class>it.sella.sb.filter.SBCrossAuthFilter</filter-class>
+  	</filter>
+  	<filter-mapping>
+		<filter-name>IdentityAssertionFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+  	</filter-mapping>
+  	
+  	 <filter>
+	    <filter-name>ChatInitFilter</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+        Delegate to spring aware filter defined in webwmc-config.xml
+        <init-param>
+            <param-name>targetBeanName</param-name>
+            <param-value>chatInitFilter</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+		<filter-name>ChatInitFilter</filter-name>
+		<url-pattern>/chatinit</url-pattern>
+  	</filter-mapping>
+  	
+  	<filter>
+	    <filter-name>LogoutFilter</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+        Delegate to spring aware filter defined in webwmc-config.xml
+        <init-param>
+            <param-name>targetBeanName</param-name>
+            <param-value>logoutFilter</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>LogoutFilter</filter-name>
+        <url-pattern>/services/logout</url-pattern>
+    </filter-mapping>
+    
+    <filter>
+		<filter-name>SBCrossCheckFilter</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+		<init-param>
+            <param-name>targetBeanName</param-name>
+            <param-value>sbCrossCheckFilter</param-value>
+        </init-param>
+  	</filter>
+  	<filter-mapping>
+		<filter-name>SBCrossCheckFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+  	</filter-mapping>	
+	<filter>
+		<filter-name>SBProtectionFilter</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+		<init-param>
+            <param-name>targetBeanName</param-name>
+            <param-value>sbProtectionFilter</param-value>
+        </init-param>
+  	</filter>
+  	<filter-mapping>
+		<filter-name>SBProtectionFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+  	</filter-mapping> -->
+    
+  	<servlet>
+    <servlet-name>smb-dispatcher</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <init-param>
+      <param-name>contextConfigLocation</param-name>
+      <param-value>/WEB-INF/smb-dispatcher.xml</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  	</servlet>
+ 	<servlet-mapping>
+    	<servlet-name>smb-dispatcher</servlet-name>
+    	<url-pattern>/execute/*</url-pattern>
+  	</servlet-mapping>
+  <session-config>
+    <session-timeout>30</session-timeout>
+  </session-config>
+</web-app>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		 xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd" 
+		 updateCheck="false">
+
+	<!-- <cache name="smb.propertiesByCodice"
+		    maxElementsInMemory="300" 
+		    eternal="false" 
+			overflowToDisk="false"
+			copyOnRead="true"
+			timeToIdleSeconds="360"
+			timeToLiveSeconds="720"/>	 -->
+			
+	
+</ehcache>

@@ -1,0 +1,53 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>it.sella.externals.sellamessengerbot</groupId>
+    <artifactId>sellamessengerbot</artifactId>
+    <version>${projectVersion}</version>
+  </parent>
+  <artifactId>sellamessengerbot-app</artifactId>
+  <packaging>ear</packaging>
+  <name>sellamessengerbot-app</name>
+  
+  <dependencies>
+        <dependency>
+            <groupId>it.sella.externals.sellamessengerbot</groupId>
+            <artifactId>sellamessengerbot-web</artifactId>
+            <version>${projectVersion}</version>   
+            <type>war</type>
+        </dependency>
+    </dependencies>
+    
+    <build>
+        <plugins> 
+            <plugin>
+                <artifactId>maven-ear-plugin</artifactId>
+                <configuration>
+                    <earSourceDirectory>src/main/resources</earSourceDirectory>
+                    <includeInApplicationXml>true</includeInApplicationXml>
+                    <modules>
+                        <webModule>
+                            <groupId>it.sella.externals.sellamessengerbot</groupId>
+                            <artifactId>sellamessengerbot-web</artifactId>
+                            <contextRoot>/msgrbot</contextRoot>
+                        </webModule>
+                    </modules>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>weblogic-maven-plugin</artifactId>
+                <configuration>
+                    <contextUri>mycontext</contextUri>
+                    <earName>${pom.artifactId}.ear</earName>
+                    <verbose>true</verbose>
+                    <earSourceIncludes>
+                        META-INF/weblogic-application.xml
+                    </earSourceIncludes>
+                </configuration>                
+            </plugin>
+        </plugins>
+    </build>  
+	
+</project>

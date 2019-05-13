@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:cache="http://www.springframework.org/schema/cache"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans     
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-4.0.xsd
+        http://www.springframework.org/schema/cache 
+        http://www.springframework.org/schema/cache/spring-cache.xsd 
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-3.2.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    
+    <aop:aspectj-autoproxy />
+    
+	<context:component-scan base-package="it.sella.smb.*" />
+	<context:property-placeholder location="classpath:query.properties,classpath:env.properties" /> 
+	
+	<!-- <import resource="classpath:smb-datasource.xml" /> -->
+	
+	<!-- <bean id="sbORABEDataSource" class="it.sella.smb.dao.datasource.SBDataSource" /> -->
+	
+	<!--<cache:annotation-driven cache-manager="cacheManager" mode="proxy" order="1" />
+
+	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+		<property name="cacheManager" ref="sellabot.cache.provider.ehcache" />
+	</bean>
+	
+	 <bean id="sellamessengerbot.cache.provider.ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+		<property name="configLocation" value="/WEB-INF/classes/ehcache.xml" />
+	</bean> -->
+	
+	<mvc:annotation-driven />
+	
+</beans>
