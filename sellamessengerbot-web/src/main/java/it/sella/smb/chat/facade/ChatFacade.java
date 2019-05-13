@@ -4,8 +4,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +21,8 @@ import it.sella.smb.fb.facade.FBFacade;
 public class ChatFacade {
 
 	private static Map<String, IMSession> chatSessionMap = new HashMap<String, IMSession>();
-	private static final Log LOG = LogFactory.getLog(ChatFacade.class);
+	private static final Logger LOG = Logger.getLogger(ChatFacade.class);
+
 	@Autowired
 	ChatService chatService;
 

@@ -1,8 +1,7 @@
 
 package it.sella.smb.chat.controller;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -18,7 +17,7 @@ import it.sella.smb.fb.dto.WebhookRequest;
 
 @RestController
 public class ChatController {
-	private static final Log logger = LogFactory.getLog(ChatController.class);
+	private static final Logger logger = Logger.getLogger(ChatController.class);
 
 
 	@Value("${TOKEN}")

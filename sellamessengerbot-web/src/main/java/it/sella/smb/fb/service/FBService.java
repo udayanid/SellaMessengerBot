@@ -1,7 +1,6 @@
 package it.sella.smb.fb.service;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -15,7 +14,7 @@ import it.sella.smb.fb.dto.WebhookRequest;
 @Component
 public class FBService {
 
-	private static final Log LOG = LogFactory.getLog(FBService.class);
+	private static final Logger LOG = Logger.getLogger(FBService.class);
 
 	@Value("${FB_GRAPH_API_URL_MESSAGES}")
 	private String FB_GRAPH_API_URL_MESSAGES;

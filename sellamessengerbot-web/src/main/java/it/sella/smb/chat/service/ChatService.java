@@ -2,8 +2,7 @@ package it.sella.smb.chat.service;
 
 import java.time.LocalDateTime;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -11,6 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import it.sella.smb.chat.dto.Eventdata;
@@ -25,7 +25,7 @@ import it.sella.smb.fb.service.FBService;
 
 @Component
 public class ChatService {
-	private static final Logger logger = LoggerFactory.getLogger(ChatService.class);
+	private static final Logger logger = Logger.getLogger(ChatService.class);
 
 	@Value("${IM_LOGIN_URL}")
 	private String IM_LOGIN_URL;
@@ -46,7 +46,7 @@ public class ChatService {
 	private ResponseEntity<String> doIMLogin(final UserDetail userDetail) {
 		final String mailId = userDetail.getFirstName().concat("_").concat(userDetail.getLastName()).concat("@test.it");
 		final String url = String.format(IM_LOGIN_URL, userDetail.getFirstName(), userDetail.getLastName(), mailId);
-		logger.info("<<<<<<<doIMLogin::: {} >>>>>>>>>>>>>", url);
+		logger.info("<<<<<<<doIMLogin::: {} >>>>>>>>>>>>>"+ url);
 		final RestTemplate restTemplate = new RestTemplate();
 		final ResponseEntity<String> imLoginResponseEntity = restTemplate.getForEntity(url, String.class);
 		return imLoginResponseEntity;
@@ -64,7 +64,7 @@ public class ChatService {
 			final String recepientId) {
 		final ResponseEntity<String> imLoginResponseEntity = doIMLogin(userDetail);
 		IMSession imSession = null;
-		logger.info("<<<<<<<<<<<<<<<<<<Login status code:::{}>>>>>>>>>>>", imLoginResponseEntity.getStatusCode());
+		logger.info("<<<<<<<<<<<<<<<<<<Login status code:::{}>>>>>>>>>>>"+ imLoginResponseEntity.getStatusCode());
 		if (imLoginResponseEntity.getStatusCode() != HttpStatus.FOUND) {
 			logger.info("<<<<<<<<<<Login KO>>>>>>>>>");
 		} else {
@@ -99,7 +99,7 @@ public class ChatService {
 
 		final HttpEntity<String> chatEntity = new HttpEntity<>(newChatRequetPayload, imSession.getHeaders());
 		final NewChatInfo newChatInfo = restTemplate.postForEntity(CHAT_URL, chatEntity, NewChatInfo.class).getBody();
-		logger.info("<<<<<<<<getNewChatId:::{}>>>>>>>", newChatInfo.getChatid());
+		logger.info("<<<<<<<<getNewChatId:::{}>>>>>>>"+ newChatInfo.getChatid());
 		return newChatInfo.getChatid();
 	}
 
@@ -113,22 +113,22 @@ public class ChatService {
 	 */
 	public void getPollResponse(final IMSession imSession, int totalPolls) {
 		final String pollPayload = String.format("{\"chatid\":\"%s\"}", imSession.getImChatId());
-		logger.info("<<<<<<<<<polling Request payload::{}>>>>>>>>>>>>>>>", pollPayload);
+		logger.info("<<<<<<<<<polling Request payload::{}>>>>>>>>>>>>>>>"+ pollPayload);
 		final RestTemplate restTemplate = new RestTemplate();
 
 		final HttpEntity<String> pollEntity = new HttpEntity<>(pollPayload, imSession.getHeaders());
 		for (int i = 1; i <= totalPolls; i++) {
 			final ResponseEntity<PollResponse> getPollResponseEntity = restTemplate.postForEntity(POLL_URL, pollEntity,
 					PollResponse.class);
-			logger.info("<<<<<<<<<<<getPollResponseEntity status:::{}>>>>>>>>>>>>>>>>",
+			logger.info("<<<<<<<<<<<getPollResponseEntity status:::{}>>>>>>>>>>>>>>>>"+
 					getPollResponseEntity.getStatusCode());
 			final PollResponse pollResponse = getPollResponseEntity.getBody();
-			logger.info("<<<<<<<<<<<<<<<<<<<<PollResponse:::{}>>>>>>>>>>>>>>>>>>>>>", pollResponse);
-			logger.info("<<<<<<<<<<<<<poll No.{} => Result Collection Size:::{}>>>>>>>>>>>", i,
+			logger.info("<<<<<<<<<<<<<<<<<<<<PollResponse:::{}>>>>>>>>>>>>>>>>>>>>>"+ pollResponse);
+			logger.info("<<<<<<<<<<<<<poll No.{} => Result Collection Size:::{}>>>>>>>>>>>"+ i+
 					pollResponse.getResults().size());
-			logger.info("<<<<<<<<<<<<PollResponsePayload Status :::{}>>>>>>>>>>>", pollResponse.getStatus());
+			logger.info("<<<<<<<<<<<<PollResponsePayload Status :::{}>>>>>>>>>>>"+ pollResponse.getStatus());
 			for (final Result result : pollResponse.getResults()) {
-				logger.info("<<<<<<<<<<<<Each Result  :::{}>>>>>>>>>>>>>", result);
+				logger.info("<<<<<<<<<<<<Each Result  :::{}>>>>>>>>>>>>>"+ result);
 				String answer = result.getAnswer();
 				String message = result.getMessage();
 				if ((answer != null) && !answer.isEmpty()) {
@@ -145,20 +145,20 @@ public class ChatService {
 					String imResponsePayload = String.format(
 							"{ \"recipient\": { \"id\": \"%s\" }, \"message\": { \"text\": \"%s\" } }",
 							imSession.getFbSenderId(), answer);
-					logger.info("<<<<<<<<<When answer is not null, then ImResponsePayload::::{}>>>>>>>>>>",
+					logger.info("<<<<<<<<<When answer is not null, then ImResponsePayload::::{}>>>>>>>>>>"+
 							imResponsePayload);
 					String fbAcknowledgement = fbService.sendFBMessage(imResponsePayload);
-					logger.info("***************poll Answer Acknowledgement of fb:::{}****************",
+					logger.info("***************poll Answer Acknowledgement of fb:::{}****************"+
 							fbAcknowledgement);
 					if ((result.getLink() != null) && !result.getLink().isEmpty()) {
 
 						imResponsePayload = String.format(
 								"{ \"recipient\":{ \"id\":\"%s\" }, \"message\":{ \"attachment\":{ \"type\":\"template\", \"payload\":{ \"template_type\":\"open_graph\", \"elements\":[ { \"url\":\"%s\", \"buttons\":[ { \"type\":\"web_url\", \"url\":\"https://www.sella.it\", \"title\":\"View More\" } ] } ] } } } }",
 								imSession.getFbSenderId(), result.getLink());
-						logger.info("<<<<<<<<<When link is not null, then ImResponsePayload::::{}>>>>>>>>>>",
+						logger.info("<<<<<<<<<When link is not null, then ImResponsePayload::::{}>>>>>>>>>>"+
 								imResponsePayload);
 						fbAcknowledgement = fbService.sendFBMessage(imResponsePayload);
-						logger.info("++++++++++++++++++poll link Acknowledgement of fb:::{}++++++++++++++++++",
+						logger.info("++++++++++++++++++poll link Acknowledgement of fb:::{}++++++++++++++++++"+
 								fbAcknowledgement);
 					}
 				}
@@ -168,17 +168,17 @@ public class ChatService {
 					final String imResponsePayload = String.format(
 							"{ \"recipient\": { \"id\": \"%s\" }, \"message\": { \"text\": \"%s\" } }",
 							imSession.getFbSenderId(), message);
-					logger.info("<<<<<<<<<When message is not null, then ImResponsePayload::::{}>>>>>>>>>>",
+					logger.info("<<<<<<<<<When message is not null, then ImResponsePayload::::{}>>>>>>>>>>"+
 							imResponsePayload);
 					final String fbAcknowledgement = fbService.sendFBMessage(imResponsePayload);
-					logger.info("*********************poll Message Acknowledgement of fb:::{}***************",
+					logger.info("*********************poll Message Acknowledgement of fb:::{}***************"+
 							fbAcknowledgement);
 				}
 			}
 			try {
 				Thread.sleep(new Long(2000));
 			} catch (final InterruptedException e) {
-				logger.debug("<<<<<<<<<<<<<<<<Exception caught here:{}>>>>>>>>>>>>>>>>>>>", e.getMessage());
+				logger.debug("<<<<<<<<<<<<<<<<Exception caught here:{}>>>>>>>>>>>>>>>>>>>"+ e.getMessage());
 			}
 		}
 	}
@@ -197,13 +197,13 @@ public class ChatService {
 		final Eventdata eventdata = new Eventdata();
 		eventdata.setValue(fbMessage);
 		messagepayload.addEventData(eventdata);
-		logger.info("<<<<<<<<<<<<<<<<IM requestMessagePayload::{}>>>>>>>>>>>", messagepayload);
+		logger.info("<<<<<<<<<<<<<<<<IM requestMessagePayload::{}>>>>>>>>>>>"+ messagepayload);
 
 		final HttpEntity<MessagePayload> messageEntity = new HttpEntity<>(messagepayload, imSession.getHeaders());
 		final RestTemplate restTemplate = new RestTemplate();
 		final ResponseEntity<NewChatInfo> sendImMessageResponseEntity = restTemplate.postForEntity(CHAT_URL,
 				messageEntity, NewChatInfo.class);
-		logger.info("<<<<<<<<<<<sendImMessageResponseEntity:::{}>>>>>>>>>>>>>>>>",
+		logger.info("<<<<<<<<<<<sendImMessageResponseEntity:::{}>>>>>>>>>>>>>>>>"+
 				sendImMessageResponseEntity.getStatusCode());
 		return sendImMessageResponseEntity;
 		/*
