@@ -23,7 +23,7 @@ import it.sella.smb.fb.dto.UserDetail;
 import it.sella.smb.fb.service.FBService;
 
 
-
+@Component
 public class ChatService {
 	private static final Logger logger = LoggerFactory.getLogger(ChatService.class);
 
