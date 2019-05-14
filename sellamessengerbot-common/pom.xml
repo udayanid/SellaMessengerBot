@@ -15,7 +15,7 @@
   
   <dependencies>
 		<!-- SYS DEPENDENCIES -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>weblogic.modules</groupId>
 			<artifactId>javax.servlet</artifactId>
 			<version>1.0.0.0_2-5</version>
@@ -32,7 +32,14 @@
 			<artifactId>ojdbc14</artifactId>
 			<version>10.2.0.1.0</version>
 			<scope>provided</scope>
+		</dependency> 
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-web-api</artifactId>
+			<version>6.0</version>
+			<scope>provided</scope>
 		</dependency>
+		-->
 		
 		<!-- JAX-WS Dependencies -->
 		<dependency>
@@ -55,12 +62,7 @@
 			<artifactId>jaxp-api</artifactId>
 			<version>1.3</version>
 		</dependency>
-		<dependency>
-			<groupId>javax</groupId>
-			<artifactId>javaee-web-api</artifactId>
-			<version>6.0</version>
-			<scope>provided</scope>
-		</dependency>
+		
 		
 		<!-- Sella Util -->
 		<!-- <dependency>
