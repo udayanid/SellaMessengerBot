@@ -44,7 +44,8 @@ public class ChatService {
 	 * @return
 	 */
 	private ResponseEntity<String> doIMLogin(final UserDetail userDetail) {
-		final String mailId = userDetail.getFirstName().concat("_").concat(userDetail.getLastName()).concat("@test.it");
+		//final String mailId = userDetail.getFirstName().concat("_").concat(userDetail.getLastName()).concat("@test.it");
+		final String mailId = "test@facebook.it";
 		final String url = String.format(IM_LOGIN_URL, userDetail.getFirstName(), userDetail.getLastName(), mailId);
 		logger.info("<<<<<<<doIMLogin::: {} >>>>>>>>>>>>>"+ url);
 		final RestTemplate restTemplate = new RestTemplate();
