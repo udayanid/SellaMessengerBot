@@ -70,6 +70,7 @@ public class FBService {
 		final String senderId = getSenderId(requestPayload);
 		final String receipentId = getReceipientId(requestPayload);
 		final String url = String.format(FB_GRAPH_API_URL_ACCESS, senderId + "?fields=first_name,last_name,profile_pic&", ACCESS_TOKEN);
+		LOG.info("<<<<<<<<<<<<<<<<<<<getUserDetail::{}>>>>>>>>>>>>"+senderId+" -- "+receipentId+" -- "+url);
 		final RestTemplate restTemplate = new RestTemplate();
 		final UserDetail userDetail = restTemplate.getForObject(url, UserDetail.class);
 		userDetail.setSenderId(senderId);
