@@ -5,39 +5,41 @@ import java.util.Map;
 
 public class UserDetail {
 
-	private String firstName;
-	private String lastName;
-	private String profilePic;
+
+	private String first_name;
+	private String last_name;
+	private String profile_pic;
 	private String id;
 	private String senderId;
 	private String receipentId;
 	private String eventType;
-	
-//	@JsonIgnore
-	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-     
-	public String getFirstName() {
-		return firstName;
+
+	//	@JsonIgnore
+	private final Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+
+	public String getFirst_name() {
+		return first_name;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+	public void setFirst_name(String first_name) {
+		this.first_name = first_name;
 	}
 
-	public String getLastName() {
-		return lastName;
+	public String getLast_name() {
+		return last_name;
 	}
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public void setLast_name(String last_name) {
+		this.last_name = last_name;
 	}
 
-	public String getProfilePic() {
-		return profilePic;
+	public String getProfile_pic() {
+		return profile_pic;
 	}
 
-	public void setProfilePic(String profilePic) {
-		this.profilePic = profilePic;
+	public void setProfile_pic(String profile_pic) {
+		this.profile_pic = profile_pic;
 	}
 
 	public String getId() {
@@ -55,7 +57,7 @@ public class UserDetail {
 	public void setAdditionalProperty(String name, Object value) {
 		this.additionalProperties.put(name, value);
 	}
-	
+
 	public String getSenderId() {
 		return senderId;
 	}
@@ -71,7 +73,7 @@ public class UserDetail {
 	public void setReceipentId(String receipentId) {
 		this.receipentId = receipentId;
 	}
-	
+
 	public String getEventType() {
 		return eventType;
 	}
@@ -82,7 +84,7 @@ public class UserDetail {
 
 	@Override
 	public String toString() {
-		return "UserDetail [firstName=" + firstName + ", lastName=" + lastName + ", profilePic=" + profilePic + ", id="
+		return "UserDetail [firstName=" + first_name + ", lastName=" + last_name + ", profilePic=" + profile_pic + ", id="
 				+ id + ", additionalProperties=" + additionalProperties + "]";
 	}
 

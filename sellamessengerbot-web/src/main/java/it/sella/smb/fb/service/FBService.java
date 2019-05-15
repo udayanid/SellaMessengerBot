@@ -1,15 +1,13 @@
 package it.sella.smb.fb.service;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
 
 import it.sella.smb.fb.dto.UserDetail;
 import it.sella.smb.fb.dto.WebhookRequest;
+import it.sella.smb.utility.HttpRestClient;
 
 @Component
 public class FBService {
@@ -24,6 +22,9 @@ public class FBService {
 
 	@Value("${FB_GRAPH_API_URL_ACCESS}")
 	private String FB_GRAPH_API_URL_ACCESS;
+
+	@Autowired
+	HttpRestClient httpRestClient;
 
 	/**Method to get event type as String
 	 * @param requestPayload : String
@@ -71,8 +72,9 @@ public class FBService {
 		final String receipentId = getReceipientId(requestPayload);
 		final String url = String.format(FB_GRAPH_API_URL_ACCESS, senderId + "?fields=first_name,last_name,profile_pic&", ACCESS_TOKEN);
 		LOG.info("<<<<<<<<<<<<<<<<<<<getUserDetail::{}>>>>>>>>>>>>"+senderId+" -- "+receipentId+" -- "+url);
-		final RestTemplate restTemplate = new RestTemplate();
-		final UserDetail userDetail = restTemplate.getForObject(url, UserDetail.class);
+		final UserDetail userDetail = httpRestClient.getForObject(url, UserDetail.class);
+		LOG.info("<<<<<<<<<<<<<<<<<<<getUserDetail::{}>>>>>>>>>>>>"+userDetail.getFirst_name()+" -- "+userDetail.getLast_name()+" -- "+userDetail.getEventType());
+
 		userDetail.setSenderId(senderId);
 		userDetail.setReceipentId(receipentId);
 		userDetail.setEventType(getEventType(requestPayload));
@@ -90,11 +92,7 @@ public class FBService {
 	public String sendFBMessage(String fbResponsePayload) {
 		LOG.info("<<<<<<<<<<<<<<<<<<<ResponsePayload::{}>>>>>>>>>>>>"+fbResponsePayload);
 		final String url = String.format(FB_GRAPH_API_URL_MESSAGES, ACCESS_TOKEN);
-		final RestTemplate restTemplate = new RestTemplate();
-		final HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
-		final HttpEntity<String> entity = new HttpEntity<String>(fbResponsePayload, headers);
-		return restTemplate.postForObject(url, entity, String.class);
+		return httpRestClient.postForObject(url, fbResponsePayload, String.class, null);
 	}
 
 

@@ -21,6 +21,7 @@ import it.sella.smb.chat.dto.PollResponse;
 import it.sella.smb.chat.dto.Result;
 import it.sella.smb.fb.dto.UserDetail;
 import it.sella.smb.fb.service.FBService;
+import it.sella.smb.utility.HttpRestClient;
 
 
 @Component
@@ -35,6 +36,9 @@ public class ChatService {
 	private String POLL_URL;
 
 	@Autowired
+	HttpRestClient httpRestClient;
+
+	@Autowired
 	FBService fbService;
 
 	/**
@@ -44,12 +48,10 @@ public class ChatService {
 	 * @return
 	 */
 	private ResponseEntity<String> doIMLogin(final UserDetail userDetail) {
-		//final String mailId = userDetail.getFirstName().concat("_").concat(userDetail.getLastName()).concat("@test.it");
-		final String mailId = "test@facebook.it";
-		final String url = String.format(IM_LOGIN_URL, userDetail.getFirstName(), userDetail.getLastName(), mailId);
+		final String mailId = userDetail.getFirst_name().concat("_").concat(userDetail.getLast_name()).concat("@facebook.it");
+		final String url = String.format(IM_LOGIN_URL, userDetail.getFirst_name(), userDetail.getLast_name(), mailId);
 		logger.info("<<<<<<<doIMLogin::: {} >>>>>>>>>>>>>"+ url);
-		final RestTemplate restTemplate = new RestTemplate();
-		final ResponseEntity<String> imLoginResponseEntity = restTemplate.getForEntity(url, String.class);
+		final ResponseEntity<String> imLoginResponseEntity = httpRestClient.getForEntity(url, String.class);
 		return imLoginResponseEntity;
 	}
 
@@ -96,10 +98,8 @@ public class ChatService {
 	 */
 	public String getNewChatId(IMSession imSession) {
 		final String newChatRequetPayload = "{\"action\":\"newchat\",\"sourceIntentCode\":\"\"}";
-		final RestTemplate restTemplate = new RestTemplate();
 
-		final HttpEntity<String> chatEntity = new HttpEntity<>(newChatRequetPayload, imSession.getHeaders());
-		final NewChatInfo newChatInfo = restTemplate.postForEntity(CHAT_URL, chatEntity, NewChatInfo.class).getBody();
+		final NewChatInfo newChatInfo = httpRestClient.postForObject(CHAT_URL, newChatRequetPayload, NewChatInfo.class, imSession.getHeaders());
 		logger.info("<<<<<<<<getNewChatId:::{}>>>>>>>"+ newChatInfo.getChatid());
 		return newChatInfo.getChatid();
 	}
@@ -115,18 +115,15 @@ public class ChatService {
 	public void getPollResponse(final IMSession imSession, int totalPolls) {
 		final String pollPayload = String.format("{\"chatid\":\"%s\"}", imSession.getImChatId());
 		logger.info("<<<<<<<<<polling Request payload::{}>>>>>>>>>>>>>>>"+ pollPayload);
-		final RestTemplate restTemplate = new RestTemplate();
+		//		final RestTemplate restTemplate = new RestTemplate();
 
-		final HttpEntity<String> pollEntity = new HttpEntity<>(pollPayload, imSession.getHeaders());
+		//		final HttpEntity<String> pollEntity = new HttpEntity<>(pollPayload, imSession.getHeaders());
 		for (int i = 1; i <= totalPolls; i++) {
-			final ResponseEntity<PollResponse> getPollResponseEntity = restTemplate.postForEntity(POLL_URL, pollEntity,
-					PollResponse.class);
-			logger.info("<<<<<<<<<<<getPollResponseEntity status:::{}>>>>>>>>>>>>>>>>"+
-					getPollResponseEntity.getStatusCode());
-			final PollResponse pollResponse = getPollResponseEntity.getBody();
+			//			final ResponseEntity<PollResponse> getPollResponseEntity = restTemplate.postForEntity(POLL_URL, pollEntity,	PollResponse.class);
+			//			logger.info("<<<<<<<<<<<getPollResponseEntity status:::{}>>>>>>>>>>>>>>>>"+	getPollResponseEntity.getStatusCode());
+			final PollResponse pollResponse = httpRestClient.postForObject(POLL_URL, pollPayload, PollResponse.class, imSession.getHeaders());//getPollResponseEntity.getBody();
 			logger.info("<<<<<<<<<<<<<<<<<<<<PollResponse:::{}>>>>>>>>>>>>>>>>>>>>>"+ pollResponse);
-			logger.info("<<<<<<<<<<<<<poll No.{} => Result Collection Size:::{}>>>>>>>>>>>"+ i+
-					pollResponse.getResults().size());
+			logger.info("<<<<<<<<<<<<<poll No.{} => Result Collection Size:::{}>>>>>>>>>>>"+ i+	pollResponse.getResults().size());
 			logger.info("<<<<<<<<<<<<PollResponsePayload Status :::{}>>>>>>>>>>>"+ pollResponse.getStatus());
 			for (final Result result : pollResponse.getResults()) {
 				logger.info("<<<<<<<<<<<<Each Result  :::{}>>>>>>>>>>>>>"+ result);

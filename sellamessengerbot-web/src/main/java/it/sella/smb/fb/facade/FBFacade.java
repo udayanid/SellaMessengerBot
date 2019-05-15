@@ -9,22 +9,22 @@ import it.sella.smb.fb.service.FBService;
 
 @Component
 public class FBFacade {
-	
+
 	@Autowired
 	FBService fbService;
-	
+
 	public String sendFBMessage(String fbResponsePayload) {
 		return fbService.sendFBMessage(fbResponsePayload);
 	}
-	
+
 	public String sendFBActionMessage(String senderAction, String senderId) {
 		return fbService.sendFBActionMessage(senderAction, senderId);
 	}
-	
+
 	public UserDetail getUserDetail(WebhookRequest requestPayload) {
 		return fbService.getUserDetail(requestPayload);
 	}
-	
-	
+
+
 
 }
