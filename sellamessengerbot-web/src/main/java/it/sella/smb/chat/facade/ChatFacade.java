@@ -94,17 +94,17 @@ public class ChatFacade {
 			LOG.info("<<<<<<<<<<<<Total facebook message entry ::{}>>>>>>>>>>>>>>"+ total_msg);
 
 			for (final Messaging messaging : entry.getMessaging()) {
+				String fbMessage = null;
 				if((messaging.getPostback()!=null) || (messaging.getMessage()!=null)) {
-					final String fbMessage = userDetail.getEventType().equals("PostbackEvent") ? messaging.getPostback().getPayload() : messaging.getMessage().getText();
-					LOG.info("<<<<<<<<<<<<TextMessage::{},EventyType:::{}>>>>>>>>>>>>>>"+ fbMessage);
-					String senderActionAcknowledge = fbFacade.sendFBActionMessage("mark_seen", userDetail.getSenderId());
-					final IMSession imSession=getUserSession(userDetail.getReceipentId(), userDetail.getSenderId(), userDetail);
-					LOG.info("<<<<<<<<<<<<<imSession::{}>>>>>>>>>>>>"+imSession);
-					imProcess(imSession, fbMessage);
-					senderActionAcknowledge = fbFacade.sendFBActionMessage("typing_off", userDetail.getSenderId());
-					LOG.info("senderActionAcknowledge>>>>{}>>>>>>>>>>>"+ senderActionAcknowledge);
+					fbMessage = userDetail.getEventType().equals("PostbackEvent") ? messaging.getPostback().getPayload() : messaging.getMessage().getText();
 				}
-
+				LOG.info("<<<<<<<<<<<<TextMessage::{},EventyType:::{}>>>>>>>>>>>>>>"+ fbMessage);
+				String senderActionAcknowledge = fbFacade.sendFBActionMessage("mark_seen", userDetail.getSenderId());
+				final IMSession imSession=getUserSession(userDetail.getReceipentId(), userDetail.getSenderId(), userDetail);
+				LOG.info("<<<<<<<<<<<<<imSession::{}>>>>>>>>>>>>"+imSession);
+				imProcess(imSession, fbMessage);
+				senderActionAcknowledge = fbFacade.sendFBActionMessage("typing_off", userDetail.getSenderId());
+				LOG.info("senderActionAcknowledge>>>>{}>>>>>>>>>>>"+ senderActionAcknowledge);
 			}
 		}
 	}
