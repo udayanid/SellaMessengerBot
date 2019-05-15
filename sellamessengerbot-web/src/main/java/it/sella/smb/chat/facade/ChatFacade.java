@@ -68,10 +68,13 @@ public class ChatFacade {
 	 * @param fbMessage:String
 	 */
 	private void imProcess(final IMSession imSession, final String fbMessage) {
-		final NewChatInfo chatResponse =chatService.sendImMessage(imSession, fbMessage).getBody();
+		NewChatInfo chatResponse = null;
+		if((fbMessage!=null) && !fbMessage.isEmpty()) {
+			chatResponse =chatService.sendImMessage(imSession, fbMessage).getBody();
+		}
 		imSession.setLastRequestDate(LocalDateTime.now());
 		LOG.info("<<<<<<<<<ChatResponse:::{}>>>>>>>>>>>>>>>"+ chatResponse);
-		if(chatResponse.getStatus().equals("EXCEPTION")) {
+		if((chatResponse!=null) && chatResponse.getStatus().equals("EXCEPTION")) {
 			LOG.info("<<<<<<<<<ChatResponse Status:::{}>>>>>>>>>>>>>>>"+ chatResponse.getStatus());
 			imSession.setImChatId(chatService.getNewChatId(imSession));
 			imSession.setLastRequestDate(LocalDateTime.now());
