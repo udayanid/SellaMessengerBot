@@ -48,7 +48,9 @@ public class ChatFacade {
 		if (chatSessionMap.containsKey(recipientId)) {
 			LOG.info("<<<<<<<<<<<<<<<ImSession already available in session>>>>>>>>>>>>>>>>>");
 			imSession = chatSessionMap.get(recipientId);
+			LOG.info("<<<<<<<<<<<<<<<Existing Session {}>>>>>>>>>>>>>>>>>"+imSession);
 			if (LocalDateTime.now().isAfter(imSession.getLastRequestDate().plusMinutes(25))) {
+				LOG.info("<<<<<<<<<<<<<<<imSession.getLastRequestDate {}>>>>>>>>>>>>>>>>>"+imSession.getLastRequestDate());
 				imSession = chatService.getNewBotSession(userDetail, senderId, recipientId);
 			}else if(LocalDateTime.now().isAfter(imSession.getLastRequestDate().plusMinutes(2))) {
 				//	imSession.setImChatId(chatService.getNewChatId(imSession));
