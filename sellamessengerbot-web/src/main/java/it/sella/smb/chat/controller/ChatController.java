@@ -31,9 +31,18 @@ public class ChatController {
 	public ResponseEntity<?> getMessage(@RequestBody WebhookRequest requestPayload	) {//@RequestHeader("X-Hub-Signature") final String signature
 		logger.info("<<<<<<<<<FB Request payload:{} && FB signature: {}>>>>>>>>>>"+ requestPayload);
 		if(requestPayload.getEntry().get(0).getMessaging().get(0).getMessage() != null && requestPayload.getEntry().get(0).getMessaging().get(0).getMessage().getText() != null) {
-			chatFacade.message(requestPayload);
+			logger.info("<<<<<<<<<Have Message in requestPayload>>>>>>>>>>");
+			final Thread thread= new Thread() {
+				@Override
+				public void run() {
+					logger.info("<<<<<<<<<Started to run thread>>>>>>>>>>");
+					chatFacade.message(requestPayload);
+				}
+			};
+			thread.start();
+			logger.info("<<<<<<<<<Begin the execution of thread>>>>>>>>>>");
 		}
-
+		logger.info("<<<<<<<<<Send Acknowledgment>>>>>>>>>>");
 		return new ResponseEntity<String>("Success", HttpStatus.OK);
 	}
 
