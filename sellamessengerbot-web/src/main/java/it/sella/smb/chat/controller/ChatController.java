@@ -41,6 +41,7 @@ public class ChatController {
 	public ResponseEntity<?> verify(@RequestParam("hub.challenge") String challenge,
 			@RequestParam("hub.verify_token") String token) {
 		logger.info("<<<<<<<<<<<<<Hub Challenge is:{"+challenge+"} and token is {"+token+"}>>>>>>>>>>>>>");
+		logger.info("<<<<<<<<<<<<<Thistoken is {"+this.TOKEN+"}>>>>>>>>>>>>>");
 		if (token.equals(this.TOKEN)) {
 			return new ResponseEntity<String>(challenge, HttpStatus.OK);
 		} else {
