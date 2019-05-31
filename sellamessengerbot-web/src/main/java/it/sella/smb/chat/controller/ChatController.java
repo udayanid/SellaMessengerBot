@@ -30,7 +30,9 @@ public class ChatController {
 	@PostMapping(path = "/webhook", consumes = "application/json", produces = "application/json")
 	public ResponseEntity<?> getMessage(@RequestBody WebhookRequest requestPayload	) {//@RequestHeader("X-Hub-Signature") final String signature
 		logger.info("<<<<<<<<<FB Request payload:{} && FB signature: {}>>>>>>>>>>"+ requestPayload);
-		chatFacade.message(requestPayload);
+		if(requestPayload.getEntry().get(0).getMessaging().get(0).getMessage() != null && requestPayload.getEntry().get(0).getMessaging().get(0).getMessage().getText() != null) {
+			chatFacade.message(requestPayload);
+		}
 
 		return new ResponseEntity<String>("Success", HttpStatus.OK);
 	}
