@@ -83,7 +83,7 @@ public class ChatFacade {
 			//			imSession.setLastRequestDate(LocalDateTime.now());
 			imProcess(imSession, fbMessage);
 		}
-		chatService.getPollResponse(imSession, 1);
+		chatService.getPollResponse(imSession, 8);
 	}
 
 	public void message(WebhookRequest requestPayload) {
