@@ -29,7 +29,7 @@ public class ChatController {
 
 	@PostMapping(path = "/webhook", consumes = "application/json", produces = "application/json")
 	public ResponseEntity<?> getMessage(@RequestBody WebhookRequest requestPayload	) {//@RequestHeader("X-Hub-Signature") final String signature
-		logger.info("<<<<<<<<<FB Request payload:{} && FB signature: {}>>>>>>>>>>", requestPayload);
+		logger.info("<<<<<<<<<FB Request payload:{} && FB signature: {}>>>>>>>>>>"+ requestPayload);
 		if(requestPayload.getEntry().get(0).getMessaging().get(0).getMessage() != null && requestPayload.getEntry().get(0).getMessaging().get(0).getMessage().getText() != null) {
 			chatFacade.message(requestPayload);
 		}
@@ -40,7 +40,7 @@ public class ChatController {
 	@GetMapping("/webhook")
 	public ResponseEntity<?> verify(@RequestParam("hub.challenge") String challenge,
 			@RequestParam("hub.verify_token") String token) {
-		logger.info("<<<<<<<<<<<<<Hub Challenge is:{} and token is {}>>>>>>>>>>>>>", challenge, token);
+		logger.info("<<<<<<<<<<<<<Hub Challenge is:{"+challenge+"} and token is {"+token+"}>>>>>>>>>>>>>");
 		if (token.equals(this.TOKEN)) {
 			return new ResponseEntity<String>(challenge, HttpStatus.OK);
 		} else {
