@@ -125,52 +125,54 @@ public class ChatService {
 			logger.info("<<<<<<<<<<<<<<<<<<<<PollResponse:::{}>>>>>>>>>>>>>>>>>>>>>"+ pollResponse);
 			//		logger.info("<<<<<<<<<<<<<poll No.{} => Result Collection Size:::{}>>>>>>>>>>>"+ i+	pollResponse.getResults().size());
 			logger.info("<<<<<<<<<<<<PollResponsePayload Status :::{}>>>>>>>>>>>"+ pollResponse.getStatus());
-			for (final Result result : pollResponse.getResults()) {
-				logger.info("<<<<<<<<<<<<Each Result  :::{}>>>>>>>>>>>>>"+ result);
-				String answer = result.getAnswer();
-				String message = result.getMessage();
-				if ((answer != null) && !answer.isEmpty()) {
-					answer = answer.replaceAll("\\\"", "\\\\\"");
+			if(pollResponse != null && !pollResponse.getResults().isEmpty()) {
+				for (final Result result : pollResponse.getResults()) {
+					logger.info("<<<<<<<<<<<<Each Result  :::{}>>>>>>>>>>>>>"+ result);
+					String answer = result.getAnswer();
+					String message = result.getMessage();
+					if ((answer != null) && !answer.isEmpty()) {
+						answer = answer.replaceAll("\\\"", "\\\\\"");
 
-					/*
-					 * final Messaging answerMessaging = new Messaging();
-					 * answerMessaging.setRecipient(new Recipient(imSession.getFbSenderId())); final
-					 * Message answerMessage = new Message(); answerMessage.setText(answer);
-					 * answerMessaging.setMessage(answerMessage);
-					 */
+						/*
+						 * final Messaging answerMessaging = new Messaging();
+						 * answerMessaging.setRecipient(new Recipient(imSession.getFbSenderId())); final
+						 * Message answerMessage = new Message(); answerMessage.setText(answer);
+						 * answerMessaging.setMessage(answerMessage);
+						 */
 
 
-					String imResponsePayload = String.format(
-							"{ \"recipient\": { \"id\": \"%s\" }, \"message\": { \"text\": \"%s\" } }",
-							imSession.getFbSenderId(), answer);
-					logger.info("<<<<<<<<<When answer is not null, then ImResponsePayload::::{}>>>>>>>>>>"+
-							imResponsePayload);
-					String fbAcknowledgement = fbService.sendFBMessage(imResponsePayload);
-					logger.info("***************poll Answer Acknowledgement of fb:::{}****************"+
-							fbAcknowledgement);
-					if ((result.getLink() != null) && !result.getLink().isEmpty()) {
-
-						imResponsePayload = String.format(
-								"{ \"recipient\":{ \"id\":\"%s\" }, \"message\":{ \"attachment\":{ \"type\":\"template\", \"payload\":{ \"template_type\":\"open_graph\", \"elements\":[ { \"url\":\"%s\", \"buttons\":[ { \"type\":\"web_url\", \"url\":\"https://www.sella.it\", \"title\":\"View More\" } ] } ] } } } }",
-								imSession.getFbSenderId(), result.getLink());
-						logger.info("<<<<<<<<<When link is not null, then ImResponsePayload::::{}>>>>>>>>>>"+
+						String imResponsePayload = String.format(
+								"{ \"recipient\": { \"id\": \"%s\" }, \"message\": { \"text\": \"%s\" } }",
+								imSession.getFbSenderId(), answer);
+						logger.info("<<<<<<<<<When answer is not null, then ImResponsePayload::::{}>>>>>>>>>>"+
 								imResponsePayload);
-						fbAcknowledgement = fbService.sendFBMessage(imResponsePayload);
-						logger.info("++++++++++++++++++poll link Acknowledgement of fb:::{}++++++++++++++++++"+
+						String fbAcknowledgement = fbService.sendFBMessage(imResponsePayload);
+						logger.info("***************poll Answer Acknowledgement of fb:::{}****************"+
+								fbAcknowledgement);
+						if ((result.getLink() != null) && !result.getLink().isEmpty()) {
+
+							imResponsePayload = String.format(
+									"{ \"recipient\":{ \"id\":\"%s\" }, \"message\":{ \"attachment\":{ \"type\":\"template\", \"payload\":{ \"template_type\":\"open_graph\", \"elements\":[ { \"url\":\"%s\", \"buttons\":[ { \"type\":\"web_url\", \"url\":\"https://www.sella.it\", \"title\":\"View More\" } ] } ] } } } }",
+									imSession.getFbSenderId(), result.getLink());
+							logger.info("<<<<<<<<<When link is not null, then ImResponsePayload::::{}>>>>>>>>>>"+
+									imResponsePayload);
+							fbAcknowledgement = fbService.sendFBMessage(imResponsePayload);
+							logger.info("++++++++++++++++++poll link Acknowledgement of fb:::{}++++++++++++++++++"+
+									fbAcknowledgement);
+						}
+					}
+
+					if ((message != null) && !message.isEmpty()) {
+						message = message.replaceAll("\\\"", "\\\\\"");
+						final String imResponsePayload = String.format(
+								"{ \"recipient\": { \"id\": \"%s\" }, \"message\": { \"text\": \"%s\" } }",
+								imSession.getFbSenderId(), message);
+						logger.info("<<<<<<<<<When message is not null, then ImResponsePayload::::{}>>>>>>>>>>"+
+								imResponsePayload);
+						final String fbAcknowledgement = fbService.sendFBMessage(imResponsePayload);
+						logger.info("*********************poll Message Acknowledgement of fb:::{}***************"+
 								fbAcknowledgement);
 					}
-				}
-
-				if ((message != null) && !message.isEmpty()) {
-					message = message.replaceAll("\\\"", "\\\\\"");
-					final String imResponsePayload = String.format(
-							"{ \"recipient\": { \"id\": \"%s\" }, \"message\": { \"text\": \"%s\" } }",
-							imSession.getFbSenderId(), message);
-					logger.info("<<<<<<<<<When message is not null, then ImResponsePayload::::{}>>>>>>>>>>"+
-							imResponsePayload);
-					final String fbAcknowledgement = fbService.sendFBMessage(imResponsePayload);
-					logger.info("*********************poll Message Acknowledgement of fb:::{}***************"+
-							fbAcknowledgement);
 				}
 			}
 			try {
