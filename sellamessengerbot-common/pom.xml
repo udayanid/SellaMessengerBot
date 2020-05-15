@@ -10,7 +10,7 @@
   
   <properties>
 		<spring.version.bg>5.0.8.RELEASE</spring.version.bg>
-		<jackson.version.bg>2.9.0.pr4</jackson.version.bg>
+		<jackson.version.bg>2.11.0</jackson.version.bg>
 	</properties>
   
   <dependencies>
