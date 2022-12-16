@@ -9,7 +9,7 @@
   <name>sellamessengerbot-common</name>
   
   <properties>
-		<spring.version.bg>5.0.8.RELEASE</spring.version.bg>
+		<spring.version.bg>5.2.20.RELEASE</spring.version.bg>
 		<jackson.version.bg>2.9.0.pr4</jackson.version.bg>
 	</properties>
   
